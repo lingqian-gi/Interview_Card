@@ -1,0 +1,45 @@
+# ═══════════════════════════════════════════════════════
+#  只发布「软件」，绝不发布「题库数据 / 个人内容」
+# ═══════════════════════════════════════════════════════
+
+# ── 1. 题库与个人文档（含题目、答案、简历、自我介绍等）──
+/qa/
+/docs/
+/面试经历/
+/面试总复习.md
+/面试总复习.md.bak
+/嵌入式简历v9.md
+/嵌入式面试自我介绍.md
+/构建工具链面试复习问答.md
+
+# ── 2. App 内置的卡片数据（题目+答案，禁止外传）──
+#    保留 assets/cards/ 目录本身（用 .gitkeep），仅排除其中的 .json
+android-app/app/src/main/assets/cards/*.json
+
+# ── 3. 与 App 无关的大型项目源码 ──
+/项目一/
+/项目二/
+/项目三/
+/备用-LVGL智能手表/
+
+# ── 4. 构建产物 ──
+android-app/build/
+android-app/app/build/
+android-app/.gradle/
+android-app/.idea/
+*.apk
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ── 5. 本机隐私 / 系统文件 ──
+android-app/local.properties
+.DS_Store
+Thumbs.db
+.codebuddy/
+
+# ── 6. 临时文件 ──
+*.bak
+*.tmp
+_*.txt

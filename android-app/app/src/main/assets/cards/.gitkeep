@@ -1,0 +1,13 @@
+# 卡片数据目录（.json 已被 .gitignore 排除，不随仓库发布）
+#
+# 本目录存放由 scripts/gen-cards.mjs 生成的数据文件：
+#   index.json          分册索引
+#   01.json ~ 06.json   分册数据（含完整正文）
+#   cards.json          轻量版（全部卡片，不含全文）
+#
+# 生成方式：
+#   node scripts/gen-cards.mjs                  # → cards.json（轻量）
+#   node scripts/gen-cards.mjs --full --split   # → cards/*.json（分册）
+#
+# 或运行后把数据放到手机外部目录（App 会优先读取）：
+#   /sdcard/interview-qa/cards/
