@@ -229,6 +229,7 @@ fun NoteScreen(nvm: NoteViewModel = viewModel()) {
             onAdd = { nvm.addCategory(it) },
             onRemove = { nvm.removeCategory(it) },
             onRename = { o, n -> nvm.renameCategory(o, n) },
+            onReorder = { nvm.reorderCategories(it) },
         )
     }
 
@@ -487,7 +488,7 @@ private fun NoteEditorDialog(
     )
 }
 
-/** ★ 分类管理：新增 / 重命名 / 删除 */
+/** ★ 分类管理：新增 / 重命名 / 删除 / 拖拽排序 */
 @Composable
 private fun CategoryManagerDialog(
     categories: List<String>,
@@ -496,6 +497,7 @@ private fun CategoryManagerDialog(
     onAdd: (String) -> Unit,
     onRemove: (String) -> Unit,
     onRename: (String, String) -> Unit,
+    onReorder: (List<String>) -> Unit,
 ) {
     var newName by remember { mutableStateOf("") }
     var renaming by remember { mutableStateOf<String?>(null) }
@@ -523,14 +525,40 @@ private fun CategoryManagerDialog(
                 }
                 Spacer(Modifier.height(10.dp))
                 HorizontalDivider()
-                Column(
-                    Modifier.heightIn(max = 300.dp).verticalScroll(rememberScrollState())
-                ) {
-                    categories.forEach { c ->
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    "长按并上下拖动可调整顺序",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+                Spacer(Modifier.height(4.dp))
+                if (categories.isEmpty()) {
+                    Text(
+                        "还没有分类，先在上面添加一个",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(vertical = 8.dp),
+                    )
+                } else {
+                    // ★ 长按拖拽排序
+                    DragReorderLazyColumn(
+                        items = categories,
+                        keyOf = { it },
+                        onReorder = { ordered -> onReorder(ordered) },
+                        modifier = Modifier.heightIn(max = 300.dp),
+                    ) { c, isDragging ->
                         Row(
-                            Modifier.fillMaxWidth().padding(vertical = 4.dp),
+                            Modifier
+                                .fillMaxWidth()
+                                .background(
+                                    if (isDragging) MaterialTheme.colorScheme.surfaceVariant
+                                    else Color.Transparent
+                                )
+                                .padding(vertical = 6.dp),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
+                            DragHandle()
+                            Spacer(Modifier.width(8.dp))
                             Box(
                                 Modifier
                                     .background(colorOf(c), RoundedCornerShape(4.dp))
@@ -560,14 +588,6 @@ private fun CategoryManagerDialog(
                                 )
                             }
                         }
-                    }
-                    if (categories.isEmpty()) {
-                        Text(
-                            "还没有分类，先在上面添加一个",
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(vertical = 8.dp),
-                        )
                     }
                 }
             }

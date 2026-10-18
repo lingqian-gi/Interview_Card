@@ -46,6 +46,10 @@ class NoteViewModel(app: Application) : AndroidViewModel(app) {
     fun renameCategory(old: String, new: String) =
         viewModelScope.launch { store.renameCategory(old, new) }
 
+    /** ★ 保存拖拽后的分类顺序 */
+    fun reorderCategories(ordered: List<String>) =
+        viewModelScope.launch { store.reorderCategories(ordered) }
+
     /** 某分类下的笔记数 */
     fun countOf(category: String): Int =
         notes.value.count { it.category == category }

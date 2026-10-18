@@ -134,6 +134,12 @@ class NoteStore(private val context: Context) {
         writeAll(notes)
     }
 
+    /** ★ 调整分类顺序（拖拽排序后整体写回） */
+    suspend fun reorderCategories(ordered: List<String>) {
+        if (ordered.isEmpty()) return
+        writeCategories(ordered)
+    }
+
     private suspend fun categoriesOnce(): List<String> {
         val raw = context.noteStore.data.first()[KEY_CATEGORIES]
         return if (raw == null) DEFAULT_CATEGORIES
