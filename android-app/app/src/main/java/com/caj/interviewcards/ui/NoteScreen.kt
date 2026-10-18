@@ -324,16 +324,6 @@ fun NoteScreen(nvm: NoteViewModel = viewModel()) {
 /** 「未分类」筛选的哨兵值（避免与真实分类名冲突） */
 private const val NONE_CATEGORY = "\u0000NONE"
 
-/** 分类标签的统一配色（按名称哈希取一组柔和色） */
-private val CATEGORY_COLORS = listOf(
-    Color(0xFF1E88E5), Color(0xFF43A047), Color(0xFFFB8C00),
-    Color(0xFF8E24AA), Color(0xFF00897B), Color(0xFFE53935),
-    Color(0xFF5E35B1), Color(0xFF6D4C41),
-)
-
-private fun colorOf(category: String): Color =
-    CATEGORY_COLORS[Math.floorMod(category.hashCode(), CATEGORY_COLORS.size)]
-
 @Composable
 private fun NoteRow(note: Note, timeText: String, onClick: () -> Unit) {
     Column(

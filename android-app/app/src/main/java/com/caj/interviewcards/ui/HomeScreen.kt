@@ -42,6 +42,12 @@ fun HomeScreen(vm: MainViewModel = viewModel()) {
                     icon = { Icon(Icons.Default.EditNote, "笔记") },
                     label = { Text("笔记") },
                 )
+                NavigationBarItem(
+                    selected = tab == 3,
+                    onClick = { tab = 3 },
+                    icon = { Icon(Icons.Default.Mic, "录音") },
+                    label = { Text("录音") },
+                )
             }
         }
     ) { padding ->
@@ -62,7 +68,8 @@ fun HomeScreen(vm: MainViewModel = viewModel()) {
                         }
                     )
                 }
-                else -> NoteScreen()
+                2 -> NoteScreen()
+                else -> RecordingScreen()
             }
         }
     }
